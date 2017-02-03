@@ -8,6 +8,7 @@ export default keyMirror({
     REMOVE_PHOTO: null,
     UPDATE_PHOTO: null,
     ROTATE_PHOTO: null,
+    UPDATE_URLS: null,
 
     ADD_ALERT: null,
     REMOVE_ALERT: null,
@@ -19,4 +20,9 @@ export default keyMirror({
     STOP_SLIDESHOW: null,
 
     UPDATE_DIR: null,
+
+    SAVE_PHOTO_FILTERS: null,
+    LOAD_PHOTO_FILTERS: null,
+    SAVE_SETTINGS: null,
+    LOAD_SETTINGS: null,
 });

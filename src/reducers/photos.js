@@ -1,21 +1,29 @@
 import Immutable from 'seamless-immutable';
 
+import constants from '../constants';
 import actionTypes from '../constants/actions';
 
 const moment = require('moment');
 
 
 const initialState = Immutable.from({
-    'next': [],
-    'prev': [],
-    'current': null,
-    'slideshowRunning': false,
-    'titles': [],
+    next: [],
+    prev: [],
+    current: null,
+    slideshowRunning: false,
+    titles: [],
+    urls: {
+        next: null,
+        prev: null,
+    },
 });
 
 
 const addNewPhoto = (state, photo) => {
-    state = state.updateIn(['titles'], list => list.concat(photo.title || ''));
+    let titles_set = new Set([...state.titles]);
+    titles_set.add(photo.title || '');
+    state = state.set('titles', [...titles_set]);
+
     if (state.current === null) {
         return state.set('current', photo);
     }
@@ -26,7 +34,7 @@ const addNewPhoto = (state, photo) => {
 
 
 const nextPhoto = (state) => {
-    let maxPrevQueueSize = 15;
+    const maxPrevQueueSize = constants.MAX_PHOTO_HISTORY_SIZE;
     if (state.next.length === 0)
         return state;
     if (state.prev.length >= maxPrevQueueSize)
@@ -48,34 +56,51 @@ const previousPhoto = (state) => {
 
 // Only remove the photos from the upcoming queue.
 const removePhoto = (state, photo) => {
+    // TODO: Remove from the titles as well!!
     return state.updateIn(['next'], list => list.filter(p => {
-        return (p.id !== photo.id);
+        return (p.url !== photo.url);
     }));
 };
 
 
-const _updateMatchingPhotoDetails = (state, id, details) => {
+const _updateMatchingPhotoDetails = (state, url, details) => {
     const updateDetails = (photo) => {
-        if (photo.id === id)
+        if (photo.url === url)
             return photo.merge(details);
         return photo;
     };
-    return state
+    state = state
         .updateIn(['next'], list => list.map(updateDetails))
         .updateIn(['prev'], list => list.map(updateDetails))
         .set('current', updateDetails(state.current));
+
+    const all_titles = state.prev.map((p) => p.title || '').concat(
+                       state.next.map((p) => p.title || '').concat(
+                       [state.current.title || '']));
+    console.log(all_titles);
+    const titles_set = new Set(all_titles);
+    state = state.set('titles', [...titles_set]);
+
+    return state;
 };
 
 
 const rotatePhoto = (state, photo) => {
     const details = {timeOfLastRotation: moment().format("x")};
-    return _updateMatchingPhotoDetails(state, photo.id, details);
+    return _updateMatchingPhotoDetails(state, photo.url, details);
 };
 
 
 const updatePhoto = (state, photo, details) => {
-    return _updateMatchingPhotoDetails(state, photo.id, details);
+    return _updateMatchingPhotoDetails(state, photo.url, details);
 };
+
+
+function updateUrls(state, urls) {
+    return state
+        .setIn(['urls', 'prev'], urls.prev)
+        .setIn(['urls', 'next'], urls.next);
+}
 
 
 const photos = (state = initialState, action) => {
@@ -96,6 +121,8 @@ const photos = (state = initialState, action) => {
             return state.set('slideshowRunning', true);
         case actionTypes.STOP_SLIDESHOW:
             return state.set('slideshowRunning', false);
+        case actionTypes.UPDATE_URLS:
+            return updateUrls(state, action.urls);
         default:
             return state;
     }

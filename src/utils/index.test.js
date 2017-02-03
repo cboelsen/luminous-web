@@ -51,11 +51,10 @@ describe('utils.index:createUrl', () => {
         expect(createUrl('http://blah', {})).toEqual(new URL('http://blah'));
     });
 
-    // TODO: node.js does not implement `URL.searchParams` yet, so can't test.
-    //it('should append query parameters to the URL', () =>{
-    //    const params = {key1: 'val1', key2: 'val2'}
-    //    expect(createUrl('http://blah', params)).toEqual(new URL('http://blah'));
-    //});
+    it('should append query parameters to the URL', () =>{
+        const params = {key1: 'val1', key2: 'val2'}
+        expect(createUrl('http://blah', params)).toEqual(new URL('http://blah'));
+    });
 });
 
 

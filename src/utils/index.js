@@ -1,12 +1,40 @@
 import apiConstants from '../constants/api';
 
 
-export function createUrl(urlstring, params) {
-    let url = new URL(urlstring);
-    if (params !== undefined) {
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+export function getUrlSearchParams() {
+    return new URL(window.location.href).searchParams;
+}
+
+
+export function invertObject(obj) {
+    var new_obj = {};
+
+    for (const prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            new_obj[obj[prop]] = prop;
+        }
     }
-    return url;
+
+    return new_obj;
+}
+
+
+export function urlConvertParams(params) {
+    return Object.keys(params)
+        .map((key) => [key, params[key]].map(encodeURIComponent).join('='))
+        .join('&');
+}
+
+
+export function createUrl(urlString, params) {
+    if (params === undefined) {
+        params = {};
+    }
+    const paramString = urlConvertParams(params);
+    if (urlString.indexOf('?') === -1 && paramString.length > 0) {
+        urlString += '?';
+    }
+    return new URL(urlString + paramString);
 }
 
 

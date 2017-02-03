@@ -1,11 +1,11 @@
-const isDev = (process.env.NODE_ENV === 'development');
+const isDev = (process.env.NODE_ENV !== 'production');
 
 
 const constants = {
     IS_DEV: isDev,
     SERVER_URL: isDev ? `http://sheeva.boelsen.net:4567` : `/api`,
     MIN_PHOTO_QUEUE_SIZE: isDev ? 3 : 20,
-    MIN_PHOTO_GET_SIZE: isDev ? 3 : 30,
+    MAX_PHOTO_HISTORY_SIZE: isDev ? 15 : 1000,
 };
 
 

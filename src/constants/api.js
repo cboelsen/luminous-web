@@ -1,8 +1,8 @@
-const isDev = (process.env.NODE_ENV === 'development');
+import constants from './index';
 
 
 const apiConstants = {
-    SERVER_URL: isDev ? `http://sheeva.boelsen.net:4567` : `/api`,
+    SERVER_URL: constants.IS_DEV ? `http://sheeva.boelsen.net:4567` : `/api`,
 };
 
 

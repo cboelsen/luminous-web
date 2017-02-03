@@ -8,11 +8,13 @@ import {showMenus, hideMenus} from '../actions'
 import './PhotoBackground.css';
 
 
-const PhotoBackground = ({photo, visible, showMenus, hideMenus}) => {
-    if (photo === null)
+export const PhotoBackground = ({photo, visible, showMenus, hideMenus}) => {
+    if (photo === null) {
+        // TODO: It would be nice to have a loading spinner here.
         return <span />;
+    }
     const onClickFn = visible ? showMenus : hideMenus;
-    const backgroundImage = "url('" + photoImageUrl(photo) + "')";
+    const backgroundImage = `url(${photoImageUrl(photo)})`;
     const opacity = visible ? 0.0 : 0.5;
     return (
         <div className="photobg" style={{backgroundImage}} onClick={onClickFn}>

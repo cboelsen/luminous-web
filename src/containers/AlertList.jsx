@@ -37,6 +37,12 @@ export class AlertMessage extends React.Component {
 };
 
 
+AlertMessage.propTypes = {
+    alert: PropTypes.object,
+    removeAlert: PropTypes.func,
+};
+
+
 export const AlertList = ({alerts, removeAlert}) => {
     const alertTags = alerts.map((a) => (
         <AlertMessage key={a.id} alert={a} removeAlert={removeAlert.bind(this, a.id)} />

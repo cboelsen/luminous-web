@@ -36,6 +36,10 @@ const Api = {
         if (method !== 'GET') {
             headers['Content-Type'] = 'application/json';
         }
+        // TODO: Do this properly!!!
+        if (token === null) {
+            token = 'af9a83ee04af88bf76a75f5b8d38d256742890f6';
+        }
         if (token !== null) {
             headers['Authorization'] = "Token " + token;
         }

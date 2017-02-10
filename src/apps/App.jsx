@@ -11,6 +11,8 @@ import PhotoBackground from '../containers/PhotoBackground';
 export class App extends React.Component {
 
     componentWillMount() {
+        console.log(this.props);
+        console.log(this.props.loadSettings);
         this.props.loadSettings();
     }
 
@@ -31,9 +33,9 @@ App.propTypes = {
 };
 
 
-const mapDispatchToProps = dispatchify(
+const mapDispatchToProps = dispatchify({
     loadSettings,
-);
+});
 
 
 const AppContainer = connect(() => {return {};}, mapDispatchToProps)(App);

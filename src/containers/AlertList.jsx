@@ -71,9 +71,9 @@ const mapStateToProps = (state) => {
 };
 
 
-const mapDispatchToProps = dispatchify(
+const mapDispatchToProps = dispatchify({
     removeAlert,
-);
+});
 
 
 const AlertListContainer = connect(mapStateToProps, mapDispatchToProps)(AlertList);

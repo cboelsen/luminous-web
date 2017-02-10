@@ -30,9 +30,9 @@ RenameApp.propTypes = {
 };
 
 
-const mapDispatchToProps = dispatchify(
+const mapDispatchToProps = dispatchify({
     addPhotosToQueue,
-);
+});
 
 
 const RenameAppContainer = connect(() => {return {};}, mapDispatchToProps)(RenameApp);

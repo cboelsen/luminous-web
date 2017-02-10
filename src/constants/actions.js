@@ -10,6 +10,8 @@ export default keyMirror({
     ROTATE_PHOTO: null,
     UPDATE_URLS: null,
 
+    CLEAR_PHOTO_QUEUE: null,
+
     ADD_ALERT: null,
     REMOVE_ALERT: null,
 

@@ -29,7 +29,7 @@ describe('utils.index:dispatchify', () => {
         return a + b;
     }
     const dispatch = (val) => {return val + 1;};
-    const fns = dispatchify(fn1, fn2)(dispatch);
+    const fns = dispatchify({fn1, fn2})(dispatch);
 
     it('should return a dict with function names as keys', () => {
         expect('fn1' in fns).toEqual(true);

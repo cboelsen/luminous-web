@@ -96,6 +96,11 @@ const updatePhoto = (state, photo, details) => {
 };
 
 
+function clearPhotoQueue(state) {
+    return state.set('next', []);
+}
+
+
 function updateUrls(state, urls) {
     return state
         .setIn(['urls', 'prev'], urls.prev)
@@ -117,6 +122,8 @@ const photos = (state = initialState, action) => {
             return rotatePhoto(state, action.photo);
         case actionTypes.UPDATE_PHOTO:
             return updatePhoto(state, action.photo, action.details);
+        case actionTypes.CLEAR_PHOTO_QUEUE:
+            return clearPhotoQueue(state);
         case actionTypes.START_SLIDESHOW:
             return state.set('slideshowRunning', true);
         case actionTypes.STOP_SLIDESHOW:

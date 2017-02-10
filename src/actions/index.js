@@ -1,6 +1,7 @@
 import actionTypes from '../constants/actions';
 
 export * from './alerts';
+export * from './globalEvents';
 export * from './photos';
 export * from './settings';
 

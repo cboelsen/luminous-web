@@ -39,9 +39,10 @@ export function createUrl(urlString, params) {
 
 
 export function photoImageUrl(photo) {
+    const scale = Math.ceil(window.devicePixelRatio);
     const uriParams = {
-        width: screen.width,
-        height: screen.height,
+        width: screen.width * scale,
+        height: screen.height * scale,
         time_last_rotated: photo.timeOfLastRotation,
     };
     return createUrl(apiConstants.SERVER_URL + photo.url + 'image/', uriParams);
@@ -57,15 +58,15 @@ export function stringContainsInvalidChars(string) {
 }
 
 
-export function dispatchify(...functions) {
+export function dispatchify(functions) {
     return (dispatch) => {
-        let fns = {}
-        for (const fn of functions) {
-            if (fn !== undefined) {
-                fns[fn.name] = (...args) => dispatch(fn(...args))
+        for (const fn_name in functions) {
+            if (fn_name !== undefined) {
+                const fn = functions[fn_name];
+                functions[fn_name] = (...args) => dispatch(fn(...args))
             }
         }
-        return fns;
+        return functions;
     };
 }
 

@@ -1,12 +1,18 @@
 import Immutable from 'seamless-immutable';
 
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Typeahead } from 'react-typeahead';
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {Typeahead} from 'react-typeahead';
 
-import * as actions from '../actions';
+import {
+    previousPhoto,
+    nextPhoto,
+    rotatePhoto,
+    ratePhoto,
+    renamePhoto,
+} from '../actions';
 
-import { stringContainsInvalidChars, dispatchify } from '../utils';
+import {stringContainsInvalidChars, dispatchify} from '../utils';
 
 
 export class RenameForm extends React.Component {
@@ -108,13 +114,13 @@ const mapStateToProps = (state) => {
 };
 
 
-const mapDispatchToProps = dispatchify(
-    actions.previousPhoto,
-    actions.nextPhoto,
-    actions.rotatePhoto,
-    actions.ratePhoto,
-    actions.renamePhoto,
-);
+const mapDispatchToProps = dispatchify({
+    previousPhoto,
+    nextPhoto,
+    rotatePhoto,
+    ratePhoto,
+    renamePhoto,
+});
 
 
 const RenameFormContainer = connect(mapStateToProps, mapDispatchToProps)(RenameForm);

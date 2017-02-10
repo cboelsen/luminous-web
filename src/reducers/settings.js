@@ -13,6 +13,7 @@ const defaultFilterParams = {
 
 const settingToFilterMap = {
     minimumRating: 'rating__gte',
+    landscapeOrientation: 'landscape_orientation',
 };
 const filterToSettingMap = invertObject(settingToFilterMap);
 
@@ -20,6 +21,7 @@ const initialState = Immutable.from({
     'slideshowInterval': 30,
     'minimumRating': defaultMinimumRating,
     'photoFilterParams': defaultFilterParams,
+    'landscapeOrientation': null,
 });
 
 
@@ -49,7 +51,13 @@ function saveSettings(state, newSettings, storeFn, setUrlParamsFn) {
     let updatedPhotoFilterParams = Immutable.asMutable(settings.photoFilterParams);
     for (const setting in newSettings) {
         if (settingToFilterMap.hasOwnProperty(setting)) {
-            updatedPhotoFilterParams[setting] = newSettings[setting];
+            const value = newSettings[setting];
+            if (value !== null) {
+                updatedPhotoFilterParams[setting] = newSettings[setting];
+            }
+            else {
+                // TODO: Remove setting from filters
+            }
         }
     }
 

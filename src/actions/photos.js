@@ -7,6 +7,7 @@ import {photoImageUrl} from '../utils';
 import Api from '../utils/api';
 
 import * as alerts from './alerts';
+import * as settings from './settings';
 
 
 export const updatePhoto = (photo, details) => {
@@ -132,6 +133,35 @@ export const addPhotosToQueue = () => {
             }
         }
     }
+};
+
+
+export const filterPhotosByScreenOrientation = () => {
+    return (dispatch, getState) => {
+        if (getState().settings.landscapeOrientation !== null) {
+            const orientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
+            if (orientation !== undefined) {
+                const landscapeOrientation = orientation.type.startsWith('landscape');
+                dispatch(settings.saveSettings({landscapeOrientation}));
+            }
+        }
+    };
+};
+
+
+export const ignoreScreenOrientation = () => {
+    return (dispatch) => {
+        dispatch(settings.saveSettings({landscapeOrientation: null}));
+    }
+};
+
+
+export const reloadPhotoQueue = () => {
+    return (dispatch) => {
+        dispatch(useScreenOrientation());
+        dispatch({type: actionTypes.CLEAR_PHOTO_QUEUE});
+        dispatch(addPhotosToQueue());
+    };
 };
 
 

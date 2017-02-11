@@ -3,8 +3,6 @@ import Immutable from 'seamless-immutable';
 import constants from '../constants';
 import actionTypes from '../constants/actions';
 
-const moment = require('moment');
-
 
 const initialState = Immutable.from({
     next: [],
@@ -86,7 +84,7 @@ const _updateMatchingPhotoDetails = (state, url, details) => {
 
 
 const rotatePhoto = (state, photo) => {
-    const details = {timeOfLastRotation: moment().format("x")};
+    const details = {timeOfLastRotation: Date.now()};
     return _updateMatchingPhotoDetails(state, photo.url, details);
 };
 

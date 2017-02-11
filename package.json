@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
-    "moment": "^2.17.1",
+    "raven-js": "^3.10.0",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-addons-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-hammerjs": "^0.5.0",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
     "react-typeahead": "^2.0.0-alpha.5",
@@ -34,7 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && rsync -av --delete-after build/ /var/www/luminous/",
+    "deploy": "react-scripts build && find build/ \\( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.ttf' \\) -exec bash -c 'gzip -c9 -k {} > {}.gz && touch -c --reference={} {}.gz' \\; && rsync -av --delete-after build/ /var/www/luminous/",
     "flow": "flow"
   },
   "jest": {

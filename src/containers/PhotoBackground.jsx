@@ -5,7 +5,10 @@ import {VelocityComponent} from 'velocity-react'
 
 import {photoImageUrl, dispatchify} from '../utils'
 
-import {showMenus, hideMenus} from '../actions'
+import {showMenus, hideMenus, nextPhoto, previousPhoto} from '../actions'
+
+import Hammer from 'hammerjs';
+import HammerComponent from 'react-hammerjs';
 
 import './PhotoBackground.css';
 
@@ -42,6 +45,19 @@ export class PhotoBackground extends React.Component {
         }
     }
 
+    onSwipe = (event) => {
+        switch (event.direction) {
+            case Hammer.DIRECTION_LEFT:
+                this.props.nextPhoto();
+                break;
+            case Hammer.DIRECTION_RIGHT:
+                this.props.previousPhoto();
+                break;
+            default:
+                break;
+        };
+    }
+
     render = () => {
         const {photo, showOverlay, showMenus, hideMenus} = this.props;
         const onClickFn = showOverlay ? hideMenus : showMenus;
@@ -59,7 +75,9 @@ export class PhotoBackground extends React.Component {
                     <PhotoDiv photo={this.state.secondPhoto} zIndex={-2} />
                 </VelocityComponent>
                 <VelocityComponent animation={{opacity: showOverlay ? 0.5 : 0}} duration={100}>
-                    <div className="overlay" onClick={onClickFn} />
+                    <HammerComponent onSwipe={this.onSwipe}>
+                        <div className="overlay" onClick={onClickFn} />
+                    </HammerComponent>
                 </VelocityComponent>
             </div>
         );
@@ -86,6 +104,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatchify({
     showMenus,
     hideMenus,
+    nextPhoto,
+    previousPhoto,
 });
 
 

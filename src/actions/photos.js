@@ -19,6 +19,36 @@ export const updatePhoto = (photo, details) => {
 }
 
 
+export const filterPhotosByScreenOrientation = () => {
+    return (dispatch, getState) => {
+        const currentOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
+        if (currentOrientation !== undefined) {
+            const wasLandscapeOriented = getState().settings.landscapeOrientation;
+            const landscapeOrientation = currentOrientation.type.startsWith('landscape');
+            if (landscapeOrientation !== wasLandscapeOriented) {
+                dispatch(settings.saveSettings({landscapeOrientation}));
+            }
+        }
+    };
+};
+
+
+export const ignoreScreenOrientation = () => {
+    return (dispatch) => {
+        dispatch(settings.saveSettings({landscapeOrientation: null}));
+    }
+};
+
+
+export const updateScreenOrientation = () => {
+    return (dispatch, getState) => {
+        if (getState().settings.landscapeOrientation !== null) {
+            dispatch(filterPhotosByScreenOrientation());
+        }
+    };
+};
+
+
 export const rotatePhoto = (photo, rotation) => {
     return async (dispatch) => {
         const alert = alerts.Alert('primary', 'Rotating photo...', 15000);
@@ -136,29 +166,9 @@ export const addPhotosToQueue = () => {
 };
 
 
-export const filterPhotosByScreenOrientation = () => {
-    return (dispatch, getState) => {
-        if (getState().settings.landscapeOrientation !== null) {
-            const orientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
-            if (orientation !== undefined) {
-                const landscapeOrientation = orientation.type.startsWith('landscape');
-                dispatch(settings.saveSettings({landscapeOrientation}));
-            }
-        }
-    };
-};
-
-
-export const ignoreScreenOrientation = () => {
-    return (dispatch) => {
-        dispatch(settings.saveSettings({landscapeOrientation: null}));
-    }
-};
-
-
 export const reloadPhotoQueue = () => {
     return (dispatch) => {
-        dispatch(useScreenOrientation());
+        dispatch(updateScreenOrientation());
         dispatch({type: actionTypes.CLEAR_PHOTO_QUEUE});
         dispatch(addPhotosToQueue());
     };

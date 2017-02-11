@@ -13,38 +13,20 @@ import HammerComponent from 'react-hammerjs';
 import './PhotoBackground.css';
 
 
-const PhotoDiv = ({photo, zIndex}) => {
+const PhotoDiv = ({photo, zIndex, visible}) => {
     if (photo === null) {
         return <span />
     }
     const backgroundImage = `url(${photoImageUrl(photo)})`;
     return (
-        <div className="photobg" style={{backgroundImage, zIndex}} />
+        <VelocityComponent animation={{opacity: visible ? 1 : 0}} duration={500}>
+            <div className="photobg" style={{backgroundImage, zIndex}} />
+        </VelocityComponent>
     );
 };
 
 
 export class PhotoBackground extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            firstVisible: false,
-            firstPhoto: null,
-            secondPhoto: null,
-        };
-    }
-
-    componentWillReceiveProps = (nextProps) => {
-        if (this.props.photo !== nextProps.photo) {
-            const nextDivToShow = (this.state.firstVisible) ? 'secondPhoto' : 'firstPhoto';
-            let newState = {
-                firstVisible: !this.state.firstVisible,
-                [nextDivToShow] : nextProps.photo,
-            };
-            this.setState(newState);
-        }
-    }
-
     onSwipe = (event) => {
         switch (event.direction) {
             case Hammer.DIRECTION_LEFT:
@@ -59,34 +41,34 @@ export class PhotoBackground extends React.Component {
     }
 
     render = () => {
-        const {photo, showOverlay, showMenus, hideMenus} = this.props;
+        const {photos, currentPhoto, showOverlay, showMenus, hideMenus} = this.props;
         const onClickFn = showOverlay ? hideMenus : showMenus;
-        const spinner = (photo === null)
+        const spinner = (currentPhoto === null)
             ? <img className="centered" role="presentation" src='/images/spinner.gif' /> 
             : <span />;
 
+        const photoTags = photos.map((p, i) => {
+            return <PhotoDiv key={p && p.url} photo={p} zIndex={(i * -1) - 2} visible={p === currentPhoto} />;
+        });
+
         return (
-            <div style={{width: '100vw', height: '100vh', position: 'fixed'}}>
-                {spinner}
-                <VelocityComponent animation={{opacity: this.state.firstVisible ? 1 : 0}} duration={700} delay={500}>
-                    <PhotoDiv photo={this.state.firstPhoto} zIndex={-3} />
-                </VelocityComponent>
-                <VelocityComponent animation={{opacity: this.state.firstVisible ? 0 : 1}} duration={700} delay={500}>
-                    <PhotoDiv photo={this.state.secondPhoto} zIndex={-2} />
-                </VelocityComponent>
-                <VelocityComponent animation={{opacity: showOverlay ? 0.5 : 0}} duration={100}>
-                    <HammerComponent onSwipe={this.onSwipe}>
-                        <div className="overlay" onClick={onClickFn} />
-                    </HammerComponent>
-                </VelocityComponent>
-            </div>
+            <HammerComponent onSwipe={this.onSwipe} onClick={onClickFn}>
+                <div style={{width: '100vw', height: '100vh', position: 'fixed'}}>
+                    {spinner}
+                    {photoTags}
+                    <VelocityComponent animation={{opacity: showOverlay ? 0.5 : 0}} duration={100}>
+                        <div className="overlay" />
+                    </VelocityComponent>
+                </div>
+            </HammerComponent>
         );
     }
 };
 
 
 PhotoBackground.propTypes = {
-    photo: PropTypes.object,
+    photos: PropTypes.array,
+    currentPhoto: PropTypes.object,
     showOverlay: PropTypes.bool,
     showMenus: PropTypes.func,
     hideMenus: PropTypes.func,
@@ -95,8 +77,9 @@ PhotoBackground.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        photo: state.photos.current,
-        showOverlay: !state.visibility.photoBackground
+        photos: state.photos.prev.slice(-2).concat([state.photos.current].concat(state.photos.next.slice(0, 2))),
+        currentPhoto: state.photos.current,
+        showOverlay: !state.visibility.photoBackground,
     }
 };
 

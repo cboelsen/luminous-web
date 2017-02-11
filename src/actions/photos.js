@@ -1,8 +1,5 @@
-import Raven from 'raven-js';
-
 import constants from '../constants';
 import actionTypes from '../constants/actions';
-import {photoImageUrl} from '../utils';
 
 import Api from '../utils/api';
 
@@ -117,23 +114,6 @@ export const removePhotoFromQueue = (photo) => {
 };
 
 
-export const cachePhoto = (photo) => {
-    return (dispatch) => {
-        let img = new Image();
-        img.onerror = (e) => {
-            dispatch(alerts.addError('Could not cache photo: ' + photo.path));
-            Raven.captureMessage(
-                'Error caching photo "' + photo.path + '"',
-                {extra: {photo: photo, event: e}}
-            );
-            dispatch(removePhotoFromQueue(photo));
-        };
-        img.src = photoImageUrl(photo);
-        return img;
-    }
-};
-
-
 export const addPhotosToQueue = () => {
     return async (dispatch, getState) => {
         const nextQueue = getState().photos.next;
@@ -156,7 +136,6 @@ export const addPhotosToQueue = () => {
 
                 for (const p of json.results) {
                     dispatch(addNewPhoto(p));
-                    dispatch(cachePhoto(p));
                 }
             } catch(error) {
                 dispatch(alerts.addError('Problem occurred getting new photos to display: ' + error));

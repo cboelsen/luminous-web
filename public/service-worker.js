@@ -10,13 +10,13 @@ function versionedNames(names, version) {
 }
 
 
-const CACHE_VERSION = 1;
+const CACHE_VERSION = 2;
 const CACHE_NAMES = versionedNames([
   'offline'
 ], CACHE_VERSION);
 
 const OFFLINE_URLS = [
-  '/',
+  '/index.html',
   '/favicon.ico',
   '/manifest.webmanifest',
   '/images/icon.svg',

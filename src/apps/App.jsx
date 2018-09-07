@@ -1,19 +1,43 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import {loadSettings} from '../actions';
-import {dispatchify} from '../utils';
+import {loadSettings, listenToWindowEvent, showNavigation} from '../actions';
+import {dispatchify, debounce} from '../utils';
 
 import AlertList from '../containers/AlertList';
 import PhotoBackground from '../containers/PhotoBackground';
+import PhotoNavigation from '../containers/PhotoNavigation';
 
 
 export class App extends React.Component {
 
-    componentWillMount() {
-        console.log(this.props);
-        console.log(this.props.loadSettings);
+    constructor(props) {
+        super(props);
+        this.state = {removeEventListeners: []};
+    }
+
+    componentWillMount = () => {
         this.props.loadSettings();
+        this.setState((state) => (
+            {removeEventListeners: state.removeEventListeners.concat([
+                // this.props.listenToWindowEvent('mousemove', debounce(showNavigation)),
+                // this.props.listenToWindowEvent('mousedown', debounce(showNavigation)),
+                // this.props.listenToWindowEvent('touchstart', debounce(showNavigation)),
+                this.props.listenToWindowEvent('mousemove', showNavigation),
+                this.props.listenToWindowEvent('mousedown', showNavigation),
+                this.props.listenToWindowEvent('touchstart', showNavigation),
+            ])}
+        ));
+    }
+
+    componentWillUnmount = () => {
+        for (const removeFn of this.state.removeEventListeners) {
+            removeFn();
+        }
+    }
+
+    shouldComponentUpdate = () => {
+        return false;
     }
 
     render = () => {
@@ -21,6 +45,7 @@ export class App extends React.Component {
             <div>
                 <PhotoBackground />
                 {this.props.children}
+                <PhotoNavigation />
                 <AlertList />
             </div>
         );
@@ -30,11 +55,13 @@ export class App extends React.Component {
 
 App.propTypes = {
     loadSettings: PropTypes.func,
+    listenToWindowEvent: PropTypes.func,
 };
 
 
 const mapDispatchToProps = dispatchify({
     loadSettings,
+    listenToWindowEvent,
 });
 
 

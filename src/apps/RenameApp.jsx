@@ -10,8 +10,12 @@ import RenameForm from '../containers/RenameForm';
 
 export class RenameApp extends React.Component {
 
-    componentWillMount() {
+    componentWillMount = () => {
         this.props.addPhotosToQueue();
+    }
+
+    shouldComponentUpdate = () => {
+        return false;
     }
 
     render = () => {

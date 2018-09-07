@@ -44,3 +44,6 @@ render(
     </Provider>,
     document.getElementById('root')
 );
+
+
+document.documentElement.style.overflow = 'hidden';

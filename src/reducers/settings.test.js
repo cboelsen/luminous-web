@@ -9,6 +9,7 @@ describe('settings reducer', () => {
             settings(undefined, {})
         ).toEqual(
             Immutable.from({
+                landscapeOrientation: null, 
                 slideshowInterval: 30,
                 minimumRating: 50,
                 photoFilterParams: {

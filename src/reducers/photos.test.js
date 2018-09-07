@@ -213,7 +213,7 @@ describe('photos reducer', () => {
                photo: {url: 1},
            })
         ).toEqual(
-            initState.setIn(['current'], Immutable.from({url: 1, 'timeOfLastRotation': '100'}))
+            initState.setIn(['current'], Immutable.from({url: 1, 'timeOfLastRotation': 100}))
         );
 
         const initState2 = Immutable.from({next: [{url: 3}, {url: 1}, {url: 2}], prev: [{url: 4}, {url: 2}], current: {url: 1}, titles: ['']});
@@ -224,8 +224,8 @@ describe('photos reducer', () => {
            })
         ).toEqual(
             initState2
-                .setIn(['current'], Immutable.from({url: 1, 'timeOfLastRotation': '100'}))
-                .setIn(['next'], Immutable.from([{url: 3}, {url: 1, 'timeOfLastRotation': '100'}, {url: 2}]))
+                .setIn(['current'], Immutable.from({url: 1, 'timeOfLastRotation': 100}))
+                .setIn(['next'], Immutable.from([{url: 3}, {url: 1, 'timeOfLastRotation': 100}, {url: 2}]))
         );
 
         const initState3 = Immutable.from({next: [{url: 3}, {url: 1}, {url: 2}], prev: [{url: 1}, {url: 1}], current: {url: 2}, titles: ['']});
@@ -236,8 +236,8 @@ describe('photos reducer', () => {
            })
         ).toEqual(
             initState3
-                .setIn(['next'], Immutable.from([{url: 3}, {url: 1, 'timeOfLastRotation': '100'}, {url: 2}]))
-                .setIn(['prev'], Immutable.from([{url: 1, 'timeOfLastRotation': '100'}, {url: 1, 'timeOfLastRotation': '100'}]))
+                .setIn(['next'], Immutable.from([{url: 3}, {url: 1, 'timeOfLastRotation': 100}, {url: 2}]))
+                .setIn(['prev'], Immutable.from([{url: 1, 'timeOfLastRotation': 100}, {url: 1, 'timeOfLastRotation': 100}]))
         );
 
         clock.uninstall();

@@ -11,6 +11,7 @@ function setup() {
         addPhotosToQueue: jest.fn(),
         startSlideshow: jest.fn(),
         updatePhotoFilters: jest.fn(),
+        listenToWindowEvent: jest.fn(),
     };
   
     const enzymeWrapper = shallow(<SlideshowApp {...props} />);
@@ -28,5 +29,6 @@ describe('apps.SlideshowApp:SlideshowApp', () => {
         expect(props.addPhotosToQueue).toHaveBeenCalledTimes(1);
         expect(props.startSlideshow).toHaveBeenCalledTimes(1);
         expect(props.updatePhotoFilters).toHaveBeenCalledTimes(1);
+        expect(props.listenToWindowEvent).toHaveBeenCalledTimes(1);
     });
 });

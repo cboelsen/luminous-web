@@ -1,0 +1,38 @@
+.prevNavButton {
+    position: fixed;
+    height: 50%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.nextNavButton {
+    right: 0;
+    position: fixed;
+    height: 50%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.rotateNavButtons {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0%);
+}
+
+.fullscreenButtons {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
+
+.ratingButtons {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0%);
+}
+
+.fullHeight {
+    height: 100%;
+}

@@ -1,3 +1,5 @@
+import './AlertList.css';
+
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Alert} from 'reactstrap';
@@ -10,8 +12,6 @@ import {removeAlert} from '../actions';
 
 import {dispatchify} from '../utils';
 
-import './AlertList.css';
-
 
 export class AlertMessage extends React.Component {
     constructor(props) {
@@ -22,8 +22,15 @@ export class AlertMessage extends React.Component {
     }
 
     removeAlert = () => {
-        this.setState({visible: false});
+        this.setState(() => ({visible: false}));
         setTimeout(this.props.removeAlert, 350);
+    }
+
+    shouldComponentUpdate = (nextProps, nextState) => {
+        return (
+            this.props.alert !== nextProps.alert ||
+            this.state.visible !== nextState.visible
+        );
     }
 
     render = () => {
@@ -43,13 +50,17 @@ AlertMessage.propTypes = {
 };
 
 
+const enterAnimation = {animation: "slideDown"};
+const leaveAnimation = {animation: "slideUp"};
+
+
 export const AlertList = ({alerts, removeAlert}) => {
     const alertTags = alerts.map((a) => (
         <AlertMessage key={a.id} alert={a} removeAlert={removeAlert.bind(this, a.id)} />
     ));
 
     return (
-        <VelocityTransitionGroup runOnMount={true} enter={{animation: "slideDown"}} leave={{animation: "slideUp"}}>
+        <VelocityTransitionGroup runOnMount={true} enter={enterAnimation} leave={leaveAnimation}>
             <div className="alertList">
                 {alertTags}
             </div>

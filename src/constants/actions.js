@@ -17,9 +17,13 @@ export default keyMirror({
 
     SHOW_MENU: null,
     HIDE_MENU: null,
+    SHOW_NAV: null,
+    HIDE_NAV: null,
 
     START_SLIDESHOW: null,
     STOP_SLIDESHOW: null,
+    STORE_NAV_DISPLAY_TIMER: null,
+    CLEAR_NAV_DISPLAY_TIMER: null,
 
     UPDATE_DIR: null,
 

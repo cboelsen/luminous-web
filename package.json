@@ -8,16 +8,18 @@
     "fetch-mock": "^5.9.3",
     "lolex": "^1.5.2",
     "react-addons-test-utils": "^15.4.2",
-    "react-scripts": "0.8.5",
+    "react-scripts": "^0.9.5",
     "redux-mock-store": "^1.2.1"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
+    "font-awesome": "^4.7.0",
     "raven-js": "^3.10.0",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-addons-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-fontawesome": "^1.5.0",
     "react-hammerjs": "^0.5.0",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
@@ -35,7 +37,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && find build/ \\( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.ttf' \\) -exec bash -c 'gzip -c9 -k {} > {}.gz && touch -c --reference={} {}.gz' \\; && rsync -av --delete-after build/ /var/www/luminous/",
     "flow": "flow"
   },
   "jest": {

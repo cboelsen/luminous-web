@@ -11,6 +11,8 @@ import {
 
 import {dispatchify} from '../utils';
 
+import SlidingMenu from '../containers/SlidingMenu';
+
 
 export class SlideshowApp extends React.Component {
 
@@ -19,26 +21,32 @@ export class SlideshowApp extends React.Component {
         this.state = {removeEventListeners: []};
     }
 
-
-    componentWillMount() {
+    componentWillMount = () => {
         this.props.updatePhotoFilters();
         this.props.addPhotosToQueue();
         this.props.startSlideshow();
 
-        this.setState({removeEventListeners: [
-            this.props.listenToWindowEvent('orientationchange', reloadPhotoQueue),
-        ]});
+        this.setState((state) => (
+            {removeEventListeners: state.removeEventListeners.concat([
+                this.props.listenToWindowEvent('orientationchange', reloadPhotoQueue),
+            ])}
+        ));
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         for (const removeFn of this.state.removeEventListeners) {
             removeFn();
         }
     }
 
+    shouldComponentUpdate = () => {
+        return false;
+    }
+
     render = () => {
         return (
             <div>
+                <SlidingMenu />
                 {this.props.children}
             </div>
         );

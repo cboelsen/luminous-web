@@ -12,7 +12,7 @@ function uuid4() {
 }
 
 
-function Alert(type, message, duration) {
+export function Alert(type, message, duration) {
     return {
         id: uuid4(),
         type: type,
@@ -22,7 +22,7 @@ function Alert(type, message, duration) {
 }
 
 
-const _addAlert = (alert) => {
+export const _addAlert = (alert) => {
     return {
         type: actionTypes.ADD_ALERT,
         alert: alert,

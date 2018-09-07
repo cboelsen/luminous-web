@@ -1,3 +1,5 @@
+import './PhotoBackground.css';
+
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 
@@ -10,7 +12,10 @@ import {showMenus, hideMenus, nextPhoto, previousPhoto} from '../actions'
 import Hammer from 'hammerjs';
 import HammerComponent from 'react-hammerjs';
 
-import './PhotoBackground.css';
+
+const showFullAnimation = {opacity: 1.0};
+const showHalfAnimation = {opacity: 0.5};
+const hideAnimation = {opacity: 0.0};
 
 
 const PhotoDiv = ({photo, zIndex, visible}) => {
@@ -19,7 +24,7 @@ const PhotoDiv = ({photo, zIndex, visible}) => {
     }
     const backgroundImage = `url(${photoImageUrl(photo)})`;
     return (
-        <VelocityComponent animation={{opacity: visible ? 1 : 0}} duration={500}>
+        <VelocityComponent animation={visible ? showFullAnimation : hideAnimation} duration={500}>
             <div className="photobg" style={{backgroundImage, zIndex}} />
         </VelocityComponent>
     );
@@ -40,11 +45,21 @@ export class PhotoBackground extends React.Component {
         };
     }
 
+    shouldComponentUpdate = (nextProps, nextState) => {
+        const eachPhotoSame = this.props.photos.map((p, i) => p === nextProps.photos[i]);
+        const allPhotosSame = eachPhotoSame.every((b) => b);
+        return (
+            !allPhotosSame ||
+            this.props.currentPhoto !== nextProps.currentPhoto ||
+            this.props.showOverlay !== nextProps.showOverlay
+        );
+    }
+
     render = () => {
         const {photos, currentPhoto, showOverlay, showMenus, hideMenus} = this.props;
         const onClickFn = showOverlay ? hideMenus : showMenus;
         const spinner = (currentPhoto === null)
-            ? <img className="centered" role="presentation" src='/images/spinner.gif' /> 
+            ? <img className="centered" alt="" role="presentation" src='/images/spinner.gif' /> 
             : <span />;
 
         const photoTags = photos.map((p, i) => {
@@ -53,10 +68,10 @@ export class PhotoBackground extends React.Component {
 
         return (
             <HammerComponent onSwipe={this.onSwipe} onClick={onClickFn}>
-                <div style={{width: '100vw', height: '100vh', position: 'fixed'}}>
+                <div className="container">
                     {spinner}
                     {photoTags}
-                    <VelocityComponent animation={{opacity: showOverlay ? 0.5 : 0}} duration={100}>
+                    <VelocityComponent animation={showOverlay ? showHalfAnimation : hideAnimation} duration={100}>
                         <div className="overlay" />
                     </VelocityComponent>
                 </div>

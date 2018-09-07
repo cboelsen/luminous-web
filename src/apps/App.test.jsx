@@ -8,7 +8,8 @@ import {App} from './App';
 
 function setup() {
     const props = {
-        loadSettings: jest.fn()
+        loadSettings: jest.fn(),
+        listenToWindowEvent: jest.fn(),
     };
   
     const enzymeWrapper = shallow(<App {...props} />);
@@ -24,5 +25,6 @@ describe('apps.App:App', () => {
     it('should render self and subcomponents', () => {
         const {enzymeWrapper, props} = setup()
         expect(props.loadSettings).toHaveBeenCalledTimes(1);
+        expect(props.listenToWindowEvent).toHaveBeenCalledTimes(3);
     });
 });

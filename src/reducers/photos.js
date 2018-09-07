@@ -75,7 +75,6 @@ const _updateMatchingPhotoDetails = (state, url, details) => {
     const all_titles = state.prev.map((p) => p.title || '').concat(
                        state.next.map((p) => p.title || '').concat(
                        [state.current.title || '']));
-    console.log(all_titles);
     const titles_set = new Set(all_titles);
     state = state.set('titles', [...titles_set]);
 

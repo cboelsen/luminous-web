@@ -118,9 +118,6 @@ export const addPhotosToQueue = () => {
     return async (dispatch, getState) => {
         const nextQueue = getState().photos.next;
         const minQueueSize = constants.MIN_PHOTO_QUEUE_SIZE;
-        // TODO: Idea: Check if the orientation has changed, and reload if it
-        // has. Then this can just another 'filters'.
-        //const isScreenLandscape = (screen.width > screen.height);
 
         if ((minQueueSize - nextQueue.length) > 0) {
             const filters = new URL(window.location.href).searchParams;
@@ -128,15 +125,14 @@ export const addPhotosToQueue = () => {
             try {
                 let json = await Api.get('/v1/photos/?' + filters.toString(), {});
 
+                // TODO: Use these URLs to fetch the next photos.
+                // TODO: Doing this would slow down getting random photos, eventually.
                 const urls = {next: json.next, prev: json.prev};
                 dispatch({
                     type: actionTypes.UPDATE_URLS,
                     urls: urls,
                 });
-
-                for (const p of json.results) {
-                    dispatch(addNewPhoto(p));
-                }
+                json.results.map((p) => dispatch(addNewPhoto(p)));
             } catch(error) {
                 dispatch(alerts.addError('Problem occurred getting new photos to display: ' + error));
             }

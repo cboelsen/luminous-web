@@ -81,3 +81,57 @@ export function convertParamsForDjangoRestFramework(params) {
     });
     return convertedParams;
 }
+
+
+export function formatDate(date) {
+    return `${date.toDateString()}, ${date.toLocaleTimeString()}`;
+}
+
+
+export function debounce(fn, timeout) {
+    let timer = null;
+    let args = null;
+    
+    function handler() {
+        if (args !== null && timer === null) {
+            function timerCb() {
+                timer = null;
+                handler();
+            }
+            const result = fn(...args);
+            args = null;
+            timer = setTimeout(timerCb, timeout);
+            return result;
+        }
+    }
+    
+    return function debounced(...givenArgs) {
+        args = givenArgs;
+        return handler();
+    }
+}
+
+
+export function toggleFullScreen() {
+    if (
+            (document.fullScreenElement && document.fullScreenElement !== null) ||
+            (!document.mozFullScreen && !document.webkitIsFullScreen)
+    ) {
+        if (document.documentElement.requestFullScreen) {  
+            document.documentElement.requestFullScreen();  
+        } else if (document.documentElement.mozRequestFullScreen) {  
+            document.documentElement.mozRequestFullScreen();  
+        } else if (document.documentElement.webkitRequestFullScreen) {  
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+        }  
+    }
+    else {  
+        if (document.cancelFullScreen) {  
+            document.cancelFullScreen();  
+        } else if (document.mozCancelFullScreen) {  
+            document.mozCancelFullScreen();  
+        } else if (document.webkitCancelFullScreen) {  
+            document.webkitCancelFullScreen();  
+        }  
+    }  
+}

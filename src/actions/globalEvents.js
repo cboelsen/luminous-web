@@ -1,8 +1,8 @@
-export function listenToWindowEvent(name, mapEventToAction, filter = (e) => true) {
+export function listenToWindowEvent(name, action, filter = (e) => true) {
     return function (dispatch) {
         function handleEvent(e) {
             if (filter(e)) {
-                dispatch(mapEventToAction(e));
+                dispatch(action(e));
             }
         }
 

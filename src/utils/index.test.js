@@ -1,8 +1,11 @@
+import lolex from 'lolex';
+
 import {
     convertParamsForDjangoRestFramework,
     createUrl,
     dispatchify,
     stringContainsInvalidChars,
+    debounce,
 } from './index';
 
 
@@ -76,5 +79,30 @@ describe('utils.api:convertParamsForDjangoRestFramework', () => {
         ).toEqual(
             expected
         );
+    });
+});
+
+
+describe('utils.index:debounce', () => {
+    let callCount = 0;
+    function fn() {
+        callCount++;
+    }
+
+    it('Should be called once initially, and then wait until the timeout before calling once again', () => {
+        var clock = lolex.install();
+        const debouncedFn = debounce(fn, 500);
+
+        debouncedFn();
+        debouncedFn();
+        debouncedFn();
+        debouncedFn();
+        clock.tick(499);
+        expect(callCount).toEqual(1);
+
+        clock.tick(1);
+        expect(callCount).toEqual(2);
+
+        clock.uninstall();
     });
 });

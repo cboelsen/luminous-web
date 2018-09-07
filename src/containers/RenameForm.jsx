@@ -22,6 +22,13 @@ export class RenameForm extends React.Component {
         this.state = {error: false};
     }
 
+    static customClasses = {
+        input: 'form-control',
+        results: 'list-group',
+        listItem: 'list-group-item',
+        hover: 'active',
+    };
+
     onKeyDown = (event) => {
         const value = (this._input !== undefined) ? this._input.refs.entry.value : '';
         const ctrlValue = 128;
@@ -57,7 +64,7 @@ export class RenameForm extends React.Component {
                 }
                 break;
             default:
-                this.setState({error: stringContainsInvalidChars(value)});
+                this.setState(() =>({error: stringContainsInvalidChars(value)}));
                 return true;
         }
         event.preventDefault();
@@ -67,6 +74,14 @@ export class RenameForm extends React.Component {
         if (prevProps.photo !== null && this.props.photo.url !== prevProps.photo.url) {
             this._input.setEntryText(this.props.photo.title);
         }
+    }
+
+    shouldComponentUpdate = (nextProps, nextState) => {
+        return (
+            this.props.photo !== nextProps.photo ||
+            this.props.titles !== nextProps.titles ||
+            this.state.error !== nextState.error
+        );
     }
 
     render = () => {
@@ -82,12 +97,7 @@ export class RenameForm extends React.Component {
                     maxVisible={8}
                     placeholder='Title'
                     onKeyDown={this.onKeyDown}
-                    customClasses={{
-                        input: 'form-control',
-                        results: 'list-group',
-                        listItem: 'list-group-item',
-                        hover: 'active',
-                    }}
+                    customClasses={RenameForm.customClasses}
                 />
             </div>
         );

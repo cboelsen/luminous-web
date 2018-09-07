@@ -11,7 +11,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2865"
-   sodipodi:docname="Gallery-Icon.svg"
+   sodipodi:docname="icon.svg"
    viewBox="0 0 500.11 586.78"
    sodipodi:version="0.32"
    version="1.0"
@@ -69,23 +69,6 @@
          style="stop-color:#b3b3b3"
          offset="1" />
     </linearGradient>
-    <radialGradient
-       id="radialGradient8257"
-       gradientUnits="userSpaceOnUse"
-       cy="541.22998"
-       cx="2000.1"
-       gradientTransform="matrix(-7.4522e-8,0.27597,-0.62317,-0.0022047,671.63,-59.371)"
-       r="345.60999"
-       inkscape:collect="always">
-      <stop
-         id="stop3338"
-         style="stop-color:#483e37"
-         offset="0" />
-      <stop
-         id="stop3340"
-         style="stop-color:#ffffff"
-         offset="1" />
-    </radialGradient>
     <radialGradient
        id="radialGradient8259"
        xlink:href="#linearGradient3442"
@@ -186,11 +169,6 @@
   <g
      id="g8240"
      transform="translate(-95.001,-5.135e-5)">
-    <path
-       id="path3594"
-       style="opacity:0.6;fill:url(#radialGradient8257)"
-       d="m 549.74,491.41 c 0,52.67 -96.43,95.37 -215.38,95.37 -118.95,0 -215.38,-42.7 -215.38,-95.37 0,-52.68 96.43,-95.38 215.38,-95.38 118.95,0 215.38,42.7 215.38,95.38 z"
-       inkscape:connector-curvature="0" />
     <g
        id="g3549"
        transform="translate(-1075.7,1275.6)">
@@ -306,7 +284,7 @@
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <cc:license
-           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
         <dc:publisher>
           <cc:Agent
              rdf:about="http://openclipart.org/">
@@ -334,7 +312,7 @@
         </dc:subject>
       </cc:Work>
       <cc:License
-         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
         <cc:permits
            rdf:resource="http://creativecommons.org/ns#Reproduction" />
         <cc:permits

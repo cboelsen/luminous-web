@@ -1,7 +1,8 @@
 import 'font-awesome/css/font-awesome.min.css';
 import './RatingStar.css';
 
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 
 import FontAwesome from 'react-fontawesome';
 

@@ -41,8 +41,8 @@ export function createUrl(urlString, params) {
 export function photoImageUrl(photo) {
     const scale = Math.ceil(window.devicePixelRatio);
     const uriParams = {
-        width: screen.width * scale,
-        height: screen.height * scale,
+        width: window.screen.width * scale,
+        height: window.screen.height * scale,
         time_last_rotated: photo.timeOfLastRotation,
     };
     return createUrl(apiConstants.SERVER_URL + photo.url + 'image/', uriParams);

@@ -1,8 +1,9 @@
 import './AlertList.css';
 
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {Alert} from 'reactstrap';
+import PropTypes from 'prop-types';
 
 import 'velocity-animate'
 import 'velocity-animate/velocity.ui'

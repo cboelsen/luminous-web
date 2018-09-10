@@ -1,7 +1,8 @@
 import './Settings.css';
 
-import React, {PropTypes} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 import {Table} from 'reactstrap';
 import {Button} from 'reactstrap';

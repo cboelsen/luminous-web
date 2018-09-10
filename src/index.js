@@ -4,7 +4,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import {IndexRoute, Router, Route, browserHistory} from 'react-router';
+import {Route} from 'react-router';
+import {BrowserRouter} from 'react-router-dom';
 
 import thunk from 'redux-thunk';
 import Raven from 'raven-js';
@@ -23,9 +24,8 @@ Raven.config(sentry_dsn).install();
 
 let middleware = [thunk, RavenMiddleware(sentry_dsn)];
 if (constants.IS_DEV) {
-    const createLogger = require('redux-logger');
-    const logger = createLogger();
-    middleware.push(logger);
+    const logger = require('redux-logger');
+    middleware.push(logger.logger);
 }
 
 const store = createStore(
@@ -35,12 +35,12 @@ const store = createStore(
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory}>
-            <Route path="/" component={App}>
-                <IndexRoute component={SlideshowApp} />
+        <BrowserRouter>
+            <Route component={App}>
+                <Route path="/" component={SlideshowApp} />
                 <Route path="rename/" component={RenameApp} />
             </Route>
-        </Router>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('root')
 );

@@ -1,8 +1,9 @@
 import Immutable from 'seamless-immutable';
 
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {Typeahead} from 'react-typeahead';
+import PropTypes from 'prop-types';
 
 import {
     previousPhoto,

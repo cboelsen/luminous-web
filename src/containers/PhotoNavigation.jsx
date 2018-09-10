@@ -1,8 +1,9 @@
 import 'font-awesome/css/font-awesome.min.css';
 import './PhotoNavigation.css';
 
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import 'velocity-animate'
 import 'velocity-animate/velocity.ui'

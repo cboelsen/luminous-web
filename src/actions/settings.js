@@ -1,8 +1,11 @@
-import {browserHistory} from 'react-router';
+import createHistory from "history/createBrowserHistory"
 
 import actionTypes from '../constants/actions';
 
 import {getUrlSearchParams} from '../utils';
+
+
+const history = createHistory()
 
 
 function _createStoreFn() {
@@ -16,7 +19,7 @@ function _createRetrieveFn() {
 
 
 function _createSetUrlParamsFn() {
-    return (u) => browserHistory.replace(u);
+    return (u) => history.push(u);
 }
 
 

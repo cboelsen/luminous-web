@@ -1,7 +1,8 @@
 import './PhotoBackground.css';
 
-import React, {PropTypes} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 import {VelocityComponent} from 'velocity-react'
 
@@ -59,7 +60,7 @@ export class PhotoBackground extends React.Component {
         const {photos, currentPhoto, showOverlay, showMenus, hideMenus} = this.props;
         const onClickFn = showOverlay ? hideMenus : showMenus;
         const spinner = (currentPhoto === null)
-            ? <img className="centered" alt="" role="presentation" src='/images/spinner.gif' /> 
+            ? <img className="centered" alt="" src='/images/spinner.gif' /> 
             : <span />;
 
         const photoTags = photos.map((p, i) => {

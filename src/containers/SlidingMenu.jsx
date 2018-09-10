@@ -1,7 +1,8 @@
 import './SlidingMenu.css';
 
-import React, {PropTypes} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 import {VelocityTransitionGroup} from 'velocity-react'
 

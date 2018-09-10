@@ -18,7 +18,7 @@ export const updatePhoto = (photo, details) => {
 
 export const filterPhotosByScreenOrientation = () => {
     return (dispatch, getState) => {
-        const currentOrientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
+        const currentOrientation = window.screen.orientation || window.screen.mozOrientation || window.screen.msOrientation;
         if (currentOrientation !== undefined) {
             const wasLandscapeOriented = getState().settings.landscapeOrientation;
             const landscapeOrientation = currentOrientation.type.startsWith('landscape');

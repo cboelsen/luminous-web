@@ -1,7 +1,7 @@
 .prevNavButton {
     position: fixed;
     height: 50%;
-    top: 50%;
+    top: 25%;
     transform: translate(0%, -50%);
 }
 
@@ -9,7 +9,7 @@
     right: 0;
     position: fixed;
     height: 50%;
-    top: 50%;
+    top: 25%;
     transform: translate(0%, -50%);
 }
 

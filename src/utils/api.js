@@ -28,22 +28,20 @@ function parseResponse(response) {
 
 
 const Api = {
-    request: (method, endpoint, token, data, params) => {
+    token: null,
+
+    _request: (method, endpoint, data, params) => {
         if (params === null) {
             params = {};
         }
         let headers = {
             'Accept': 'application/json',
         }
+        if (Api.token !== null) {
+            headers['Authorization'] = "Token " + Api.token;
+        }
         if (method !== 'GET') {
             headers['Content-Type'] = 'application/json';
-        }
-        // TODO: Do this properly!!!
-        if (token === null) {
-            token = 'af9a83ee04af88bf76a75f5b8d38d256742890f6';
-        }
-        if (token !== null) {
-            headers['Authorization'] = "Token " + token;
         }
         let details = {
             method: method,
@@ -62,24 +60,39 @@ const Api = {
         .then(parseResponse);
     },
 
+    request: (method, endpoint, data, params) => {
+        if (Api.token === null) {
+            return Api.logIn("test", "test")
+                .then(Api._request(method, endpoint, data, params));
+        }
+        return Api._request(method, endpoint, data, params);
+    },
+
     get: (endpoint, params=null) => {
-        return Api.request('GET', endpoint, null, null, params);
+        return Api.request('GET', endpoint, null, params);
     },
 
     post: (endpoint, token, data=null, params=null) => {
-        return Api.request('POST', endpoint, token, data, params);
+        return Api.request('POST', endpoint, data, params);
     },
 
     patch: (endpoint, token, data=null, params=null) => {
-        return Api.request('PATCH', endpoint, token, data, params);
+        return Api.request('PATCH', endpoint, data, params);
     },
 
     put: (endpoint, token, data=null, params=null) => {
-        return Api.request('PUT', endpoint, token, data, params);
+        return Api.request('PUT', endpoint, data, params);
     },
 
     delete: (endpoint, token) => {
-        return Api.request('DELETE', endpoint, token, null, null);
+        return Api.request('DELETE', endpoint, null, null);
+    },
+
+    logIn: (username, password) => {
+        const authData = {username: username, password: password}
+        return Api._request("POST", "/api/token-auth/", authData, {})
+            .then(json => json.token)
+            .then(t => {Api.token = t});
     },
 };
 

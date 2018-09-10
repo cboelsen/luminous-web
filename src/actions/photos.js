@@ -123,7 +123,7 @@ export const addPhotosToQueue = () => {
             const filters = new URL(window.location.href).searchParams;
 
             try {
-                let json = await Api.get('/v1/photos/?' + filters.toString(), {});
+                let json = await Api.get('/api/v1/photos/?' + filters.toString(), {});
 
                 // TODO: Use these URLs to fetch the next photos.
                 // TODO: Doing this would slow down getting random photos, eventually.

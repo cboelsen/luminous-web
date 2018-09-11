@@ -14,12 +14,28 @@ import {
     filterPhotosByScreenOrientation,
 } from '../actions';
 
-import {dispatchify} from '../utils';
+import {dispatchify, invertObject} from '../utils';
 
 
 function Option(display, value) {
     return {display, value};
 }
+
+
+class MappedOptions {
+    constructor(options) {
+        this.options = options;
+        this.invertedOptions = invertObject(options);
+    }
+
+    valueToKey = (value) => {
+        return this.invertedOptions[value];
+    }
+
+    toArray = () => {
+        return Object.keys(this.options).map((k) => Option(k, this.options[k]));
+    }
+};
 
 
 class DropDownSetting extends React.Component {
@@ -44,7 +60,7 @@ class DropDownSetting extends React.Component {
 
     render = () => {
         const {name, value, options, saveSettings} = this.props;
-        const itemTags = options.map((o) => 
+        const itemTags = options.map((o) =>
             <DropdownItem key={o.value} onClick={() => saveSettings({[name]: o.value})}>{o.display}</DropdownItem>
         );
 
@@ -62,6 +78,31 @@ class DropDownSetting extends React.Component {
 };
 
 
+const intervalOptions = new MappedOptions({
+    '10 seconds': 10,
+    '30 seconds': 30,
+    '1 minute': 60,
+    '2 minutes': 120,
+    '5 minutes': 300,
+    '10 minutes': 600,
+    '20 minutes': 1200,
+    '1 hour': 3600,
+    '2 hours': 7200,
+    '6 hours': 21600,
+    '1 day': 86400,
+});
+
+
+const ratingOptions = new MappedOptions({
+    '1 star':   20,
+    '2 stars':  40,
+    '3 stars':  60,
+    '4 stars':  80,
+    '5 stars': 100,
+    'unrated':  50,
+});
+
+
 export const Settings = ({settings, saveSettings, filterPhotosByScreenOrientation, ignoreScreenOrientation}) => {
     const usingOrientation = (settings.landscapeOrientation !== null);
     const changeUsingOrientation = (usingOrientation) ? ignoreScreenOrientation : filterPhotosByScreenOrientation;
@@ -74,21 +115,9 @@ export const Settings = ({settings, saveSettings, filterPhotosByScreenOrientatio
                     <td>
                         <DropDownSetting
                             name='slideshowInterval'
-                            value={settings.slideshowInterval}
+                            value={intervalOptions.valueToKey(settings.slideshowInterval)}
                             saveSettings={saveSettings}
-                            options={[
-                                Option('10 seconds', 10), 
-                                Option('30 seconds', 30), 
-                                Option('1 minute', 60),
-                                Option('2 minutes', 120),
-                                Option('5 minutes', 300),
-                                Option('10 minutes', 600),
-                                Option('20 minutes', 1200),
-                                Option('1 hour', 3600),
-                                Option('2 hours', 7200),
-                                Option('6 hours', 21600),
-                                Option('1 day', 86400),
-                            ]}
+                            options={intervalOptions.toArray()}
                         />
                     </td>
                 </tr>
@@ -105,16 +134,9 @@ export const Settings = ({settings, saveSettings, filterPhotosByScreenOrientatio
                     <td>
                         <DropDownSetting
                             name='minimumRating'
-                            value={settings.minimumRating}
+                            value={ratingOptions.valueToKey(settings.minimumRating)}
                             saveSettings={saveSettings}
-                            options={[
-                                Option('1 star',   20),
-                                Option('2 stars',  40),
-                                Option('3 stars',  60),
-                                Option('4 stars',  80),
-                                Option('5 stars', 100),
-                                Option('unrated',  50),
-                            ]}
+                            options={ratingOptions.toArray()}
                         />
                     </td>
                 </tr>

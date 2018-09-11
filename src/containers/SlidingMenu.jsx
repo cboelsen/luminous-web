@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import {VelocityTransitionGroup} from 'velocity-react'
 
-import {Card, CardBlock} from 'reactstrap';
+import {Card, CardBody} from 'reactstrap';
 import {Container, Row, Col} from 'reactstrap';
 import {Nav, NavItem, NavLink} from 'reactstrap';
 import {TabContent, TabPane} from 'reactstrap';
@@ -33,7 +33,7 @@ function changeTab(tab, state) {
 export class SlidingMenu extends React.Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
             activeTab: '1'
         };
@@ -41,11 +41,11 @@ export class SlidingMenu extends React.Component {
 
     static enterAnimation = {animation: "transition.slideRightIn", duration: 400};
     static leaveAnimation = {animation: "transition.slideRightOut", duration: 200};
-  
+
     toggle = (tab) => {
         this.setState((state) => changeTab(tab, state));
     }
-  
+
     shouldComponentUpdate = (nextProps, nextState) => {
         return (
             this.props.photo !== nextProps.photo ||
@@ -90,7 +90,7 @@ export class SlidingMenu extends React.Component {
         });
 
         const contents = (
-            <CardBlock>
+            <CardBody>
                 <Nav tabs>
                     {tabNavs}
                     <NavItem key='x'>
@@ -100,7 +100,7 @@ export class SlidingMenu extends React.Component {
                 <TabContent activeTab={this.state.activeTab}>
                     {tabPanes}
                 </TabContent>
-            </CardBlock>
+            </CardBody>
         );
 
         const layout = visible

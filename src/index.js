@@ -20,9 +20,9 @@ import SlideshowApp from './apps/SlideshowApp';
 
 
 const sentry_dsn = 'https://c49ae17dec2049b3ad57b67639f44a63@sentry.boelsen.net/3';
-Raven.config(sentry_dsn).install();
+//Raven.config(sentry_dsn).install();
 
-let middleware = [thunk, RavenMiddleware(sentry_dsn)];
+let middleware = [thunk];//, RavenMiddleware(sentry_dsn)];
 if (constants.IS_DEV) {
     const logger = require('redux-logger');
     middleware.push(logger.logger);

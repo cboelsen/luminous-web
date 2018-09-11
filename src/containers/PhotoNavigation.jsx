@@ -55,12 +55,12 @@ export const PhotoNavigation = ({photo, visible, nextPhoto, previousPhoto, rotat
                     <div>
                         <div className='prevNavButton'>
                             <Button className="fullHeight" onClick={previousPhoto}>
-                                <FontAwesome name='angle-left' size='2x' />
+                                <FontAwesome name='step-backward' size='2x' />
                             </Button>
                         </div>
                         <div className='nextNavButton'>
                             <Button className="fullHeight" onClick={nextPhoto}>
-                                <FontAwesome name='angle-right' size='2x' />
+                                <FontAwesome name='step-forward' size='2x' />
                             </Button>
                         </div>
                         <div className='rotateNavButtons'>

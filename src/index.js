@@ -4,7 +4,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import {Route} from 'react-router';
+import {Route, Switch} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 
 import thunk from 'redux-thunk';
@@ -33,13 +33,43 @@ const store = createStore(
     applyMiddleware(...middleware)
 );
 
+
+
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+
+    componentDidCatch(error, info) {
+        // Display fallback UI
+        this.setState({ hasError: true });
+        // You can also log the error to an error reporting service
+        //logErrorToMyService(error, info);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            // You can render any custom fallback UI
+            return <h1>Something went wrong.</h1>;
+        }
+        return this.props.children;
+    }
+}
+
+
+
 render(
     <Provider store={store}>
         <BrowserRouter>
-            <Route component={App}>
-                <Route path="/" component={SlideshowApp} />
-                <Route path="rename/" component={RenameApp} />
-            </Route>
+            <ErrorBoundary>
+                <App>
+                    <Switch>
+                        <Route path="/" component={SlideshowApp} />
+                        <Route path="rename/" component={RenameApp} />
+                    </Switch>
+                </App>
+            </ErrorBoundary>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root')

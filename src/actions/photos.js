@@ -135,6 +135,7 @@ export const addPhotosToQueue = () => {
                 json.results.map((p) => dispatch(addNewPhoto(p)));
             } catch(error) {
                 dispatch(alerts.addError('Problem occurred getting new photos to display: ' + error));
+                throw error;
             }
         }
     }

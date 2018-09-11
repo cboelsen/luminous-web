@@ -46,17 +46,17 @@ function loadPhotoFilters(state, setUrlParamsFn) {
 
 function saveSettings(state, newSettings, storeFn, setUrlParamsFn) {
     const oldSettings = state;
-    const settings = Object.assign(oldSettings, newSettings);
+    const settings = Immutable.merge(oldSettings, newSettings);
 
     let updatedPhotoFilterParams = Immutable.asMutable(settings.photoFilterParams);
     for (const setting in newSettings) {
         if (settingToFilterMap.hasOwnProperty(setting)) {
             const value = newSettings[setting];
             if (value !== null) {
-                updatedPhotoFilterParams[setting] = newSettings[setting];
+                updatedPhotoFilterParams[settingToFilterMap[setting]] = newSettings[setting];
             }
             else {
-                // TODO: Remove setting from filters
+                delete updatedPhotoFilterParams[setting]
             }
         }
     }
@@ -86,7 +86,7 @@ const settings = (state = initialState, action) => {
         case actionTypes.LOAD_PHOTO_FILTERS:
             return loadPhotoFilters(state, action.setUrlParamsFn);
         case actionTypes.SAVE_SETTINGS:
-            return saveSettings(state, action.newSettings, action.storeFn, action.setUrlParamsFn);
+            return saveSettings(state, action.settings, action.storeFn, action.setUrlParamsFn);
         case actionTypes.LOAD_SETTINGS:
             return loadSettings(state, action.retrieveFn);
         default:

@@ -63,7 +63,7 @@ const Api = {
     request: (method, endpoint, data, params) => {
         if (Api.token === null) {
             return Api.logIn("test", "test")
-                .then(Api._request(method, endpoint, data, params));
+                .then(() => Api._request(method, endpoint, data, params));
         }
         return Api._request(method, endpoint, data, params);
     },

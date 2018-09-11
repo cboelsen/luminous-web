@@ -1,6 +1,8 @@
 import constants from '../constants';
 import actionTypes from '../constants/actions';
 
+import {stopSlideshow, startSlideshow} from './photos';
+
 export * from './alerts';
 export * from './globalEvents';
 export * from './photos';
@@ -8,22 +10,31 @@ export * from './settings';
 
 
 export function showMenus() {
-    return {
-        type: actionTypes.SHOW_MENU
+    return (dispatch, getState) => {
+        dispatch({type: actionTypes.SHOW_MENU});
+        if (getState().visibility.navigation === false) {
+            dispatch(stopSlideshow());
+        }
     };
 };
 
 
 export function hideMenus() {
-    return {
-        type: actionTypes.HIDE_MENU
+    return (dispatch, getState) => {
+        dispatch({type: actionTypes.HIDE_MENU});
+        if (getState().visibility.navigation === false) {
+            dispatch(startSlideshow());
+        }
     };
 };
 
 
 export function hideNavigation() {
-    return {
-        type: actionTypes.HIDE_NAV
+    return (dispatch, getState) => {
+        dispatch({type: actionTypes.HIDE_NAV});
+        if (getState().visibility.menu === false) {
+            dispatch(startSlideshow());
+        }
     };
 }
 
@@ -41,6 +52,9 @@ export const showNavigation = (function createShowNavigation() {
         return (dispatch, getState) => {
             if (getState().visibility.navigation === false) {
                 dispatch({type: actionTypes.SHOW_NAV});
+                if (getState().visibility.menu === false) {
+                    dispatch(stopSlideshow());
+                }
             }
 
             timer = setTimeout(() => {

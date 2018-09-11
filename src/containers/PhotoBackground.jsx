@@ -64,7 +64,7 @@ export class PhotoBackground extends React.Component {
             : <span />;
 
         const photoTags = photos.map((p, i) => {
-            return <PhotoDiv key={p && p.url} photo={p} zIndex={(i * -1) - 2} visible={p === currentPhoto} />;
+            return <PhotoDiv key={p && `${p.url}-${i}`} photo={p} zIndex={(i * -1) - 2} visible={p === currentPhoto} />;
         });
 
         return (
